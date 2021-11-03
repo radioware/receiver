@@ -1,0 +1,57 @@
+/*
+ * RadioWare Receiver
+ * Copyright (C) 2020 - 2021  Luca Cireddu (sardylan@gmail.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
+
+
+#ifndef __RADIOWARE_RECEIVER__HTTP__H__TEST
+#define __RADIOWARE_RECEIVER__HTTP__H__TEST
+
+#include "../src/http.h"
+
+#define TEST_HTTP_MOCK_API_SCRIPT "utility/mock-api.py"
+#define TEST_HTTP_MOCK_API_WAIT 2
+
+#define URL_PREFIX "http://127.0.0.1:8000"
+
+#define URL_TEST "/test"
+
+#define TEST_REQUEST_BODY_EMPTY "{}"
+#define TEST_REQUEST_BODY_PARAM_VALUE "{\"param\": \"value\"}"
+
+#define TEST_RESPONSE_BODY_GET "{\"test\": \"test\"}"
+
+int main_parent();
+
+int main_child();
+
+static int test_http_group_setup(void **);
+
+static int test_http_group_teardown(void **);
+
+static int test_http_setup(void **);
+
+static int test_http_teardown(void **);
+
+void test_http_url_concat(void **);
+
+void test_http_get(void **);
+
+void test_http_post_json_empty(void **);
+
+void test_http_post_json_param_value(void **);
+
+#endif

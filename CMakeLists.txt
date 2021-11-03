@@ -1,0 +1,93 @@
+cmake_minimum_required(VERSION 3.5)
+
+project(radioware-receiver C)
+
+set(CMAKE_C_STANDARD 11)
+
+set(APPLICATION_NAME "RadioWare Receiver")
+
+set(APPLICATION_VERSION_MAJOR "0")
+set(APPLICATION_VERSION_MINOR "5")
+set(APPLICATION_VERSION_PATCH "0")
+set(APPLICATION_VERSION "${APPLICATION_VERSION_MAJOR}.${APPLICATION_VERSION_MINOR}.${APPLICATION_VERSION_PATCH}")
+
+string(TIMESTAMP APPLICATION_BUILD_TIMESTAMP "%Y-%m-%dT%H:%M:%SZ" UTC)
+
+add_compile_options(-Wall -Wextra -pedantic -Werror)
+add_compile_options("-D__FILENAME__=__FILE__")
+
+if (UNIX)
+    include(GNUInstallDirs)
+endif ()
+
+include(cmake/rpi.cmake)
+include(cmake/packaging.cmake)
+
+find_package(PkgConfig REQUIRED)
+
+set(RADIOWARE_RECEIVER_LOG_ERROR_ENABLED TRUE CACHE BOOL "Enable ERROR level logging")
+set(RADIOWARE_RECEIVER_LOG_WARN_ENABLED TRUE CACHE BOOL "Enable WARN level logging")
+set(RADIOWARE_RECEIVER_LOG_INFO_ENABLED TRUE CACHE BOOL "Enable INFO level logging")
+set(RADIOWARE_RECEIVER_LOG_DEBUG_ENABLED TRUE CACHE BOOL "Enable DEBUG level logging")
+set(RADIOWARE_RECEIVER_LOG_TRACE_ENABLED TRUE CACHE BOOL "Enable TRACE level logging")
+
+set(ENABLED_LOGS)
+
+if (RADIOWARE_RECEIVER_LOG_ERROR_ENABLED)
+    list(APPEND ENABLED_LOGS "ERROR")
+endif ()
+if (RADIOWARE_RECEIVER_LOG_WARN_ENABLED)
+    list(APPEND ENABLED_LOGS "WARN")
+endif ()
+if (RADIOWARE_RECEIVER_LOG_INFO_ENABLED)
+    list(APPEND ENABLED_LOGS "INFO")
+endif ()
+if (RADIOWARE_RECEIVER_LOG_DEBUG_ENABLED)
+    list(APPEND ENABLED_LOGS "DEBUG")
+endif ()
+if (RADIOWARE_RECEIVER_LOG_TRACE_ENABLED)
+    list(APPEND ENABLED_LOGS "TRACE")
+endif ()
+
+message(STATUS "Log enabled: ${ENABLED_LOGS}")
+
+if (NOT RADIOWARE_RECEIVER_FP_PRECISION)
+    if (RPI_PLATFORM_ENABLED)
+        set(RADIOWARE_RECEIVER_FP_PRECISION_DEFAULT float)
+    else ()
+        set(RADIOWARE_RECEIVER_FP_PRECISION_DEFAULT double)
+    endif ()
+endif ()
+
+set(RADIOWARE_RECEIVER_FP_PRECISION "${RADIOWARE_RECEIVER_FP_PRECISION_DEFAULT}" CACHE STRING "Set Floating Point precision changing used data type")
+set_property(CACHE RADIOWARE_RECEIVER_FP_PRECISION PROPERTY STRINGS "float" "double" "long double")
+unset(RADIOWARE_RECEIVER_FP_PRECISION_DEFAULT CACHE)
+message(STATUS "Floating Point precision: ${RADIOWARE_RECEIVER_FP_PRECISION}")
+
+if (RADIOWARE_RECEIVER_FP_PRECISION STREQUAL "float")
+    set(RADIOWARE_RECEIVER_FP_FLOAT TRUE)
+    set(RADIOWARE_RECEIVER_FP_DOUBLE FALSE)
+    set(RADIOWARE_RECEIVER_FP_LONG_DOUBLE FALSE)
+elseif (RADIOWARE_RECEIVER_FP_PRECISION STREQUAL "double")
+    set(RADIOWARE_RECEIVER_FP_FLOAT FALSE)
+    set(RADIOWARE_RECEIVER_FP_DOUBLE TRUE)
+    set(RADIOWARE_RECEIVER_FP_LONG_DOUBLE FALSE)
+elseif (RADIOWARE_RECEIVER_FP_PRECISION STREQUAL "long double")
+    set(RADIOWARE_RECEIVER_FP_FLOAT FALSE)
+    set(RADIOWARE_RECEIVER_FP_DOUBLE FALSE)
+    set(RADIOWARE_RECEIVER_FP_LONG_DOUBLE TRUE)
+endif ()
+
+add_compile_definitions(PROJECT_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
+
+enable_testing()
+
+pkg_check_modules(rtlsdr REQUIRED IMPORTED_TARGET librtlsdr)
+pkg_check_modules(asound2 REQUIRED IMPORTED_TARGET alsa)
+pkg_check_modules(codec2 REQUIRED IMPORTED_TARGET codec2)
+pkg_check_modules(curl REQUIRED IMPORTED_TARGET libcurl)
+pkg_check_modules(uuid REQUIRED IMPORTED_TARGET uuid)
+
+add_subdirectory(src)
+add_subdirectory(test)
+add_subdirectory(package)

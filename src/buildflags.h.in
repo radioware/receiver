@@ -1,0 +1,45 @@
+/*
+ * RadioWare Receiver
+ * Copyright (C) 2020 - 2021  Luca Cireddu (sardylan@gmail.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
+
+
+#ifndef __RADIOWARE_RECEIVER__BUILDFLAGS__H
+#define __RADIOWARE_RECEIVER__BUILDFLAGS__H
+
+#cmakedefine RADIOWARE_RECEIVER_LOG_ERROR_ENABLED
+#cmakedefine RADIOWARE_RECEIVER_LOG_WARN_ENABLED
+#cmakedefine RADIOWARE_RECEIVER_LOG_INFO_ENABLED
+#cmakedefine RADIOWARE_RECEIVER_LOG_DEBUG_ENABLED
+#cmakedefine RADIOWARE_RECEIVER_LOG_TRACE_ENABLED
+
+#cmakedefine RADIOWARE_RECEIVER_FP_FLOAT
+#cmakedefine RADIOWARE_RECEIVER_FP_DOUBLE
+#cmakedefine RADIOWARE_RECEIVER_FP_LONG_DOUBLE
+
+#ifdef RADIOWARE_RECEIVER_FP_FLOAT
+#define FP_FLOAT float
+#endif
+
+#ifdef RADIOWARE_RECEIVER_FP_DOUBLE
+#define FP_FLOAT double
+#endif
+
+#ifdef RADIOWARE_RECEIVER_FP_LONG_DOUBLE
+#define FP_FLOAT long double
+#endif
+
+#endif

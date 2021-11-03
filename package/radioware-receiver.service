@@ -1,0 +1,15 @@
+[Unit]
+Description=${APPLICATION_NAME}
+After=network.target
+
+[Service]
+Type=simple
+User=gufo
+Group=daemons
+WorkingDirectory=/var/lib/gufo
+ExecStart=/usr/bin/radioware_receiver --pidfile=/var/run/gufo/radioware_receiver.pid --config /etc/gufo/radioware_receiver.conf
+PIDFile=/var/run/gufo/radioware_receiver.pid
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
