@@ -21,7 +21,6 @@ if (UNIX)
 endif ()
 
 include(cmake/rpi.cmake)
-include(cmake/packaging.cmake)
 
 find_package(PkgConfig REQUIRED)
 
@@ -87,6 +86,8 @@ pkg_check_modules(asound2 REQUIRED IMPORTED_TARGET alsa)
 pkg_check_modules(codec2 REQUIRED IMPORTED_TARGET codec2)
 pkg_check_modules(curl REQUIRED IMPORTED_TARGET libcurl)
 pkg_check_modules(uuid REQUIRED IMPORTED_TARGET uuid)
+
+include(cmake/install.cmake)
 
 add_subdirectory(src)
 add_subdirectory(test)

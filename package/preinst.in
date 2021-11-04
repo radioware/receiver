@@ -1,0 +1,62 @@
+#!/bin/bash
+
+set -e
+
+SYSTEM_USER="@RADIOWARE_RECEIVER_SYSTEM_USER@"
+SYSTEM_GROUP="@RADIOWARE_RECEIVER_SYSTEM_GROUP@"
+SYSTEM_HOMEDIR="@RADIOWARE_RECEIVER_SYSTEM_HOMEDIR@"
+SYSTEM_CONFDIR="@RADIOWARE_RECEIVER_SYSTEM_CONFDIR@"
+SYSTEM_PIDDIR="@RADIOWARE_RECEIVER_SYSTEM_PIDDIR@"
+SYSTEM_LOGDIR="@RADIOWARE_RECEIVER_SYSTEM_LOGDIR@"
+
+MODE="${1}"
+
+if [ "${MODE}" = "install" ]; then
+  if ! grep -q "${SYSTEM_GROUP}" /etc/group; then
+    echo "Creating system group ${SYSTEM_GROUP}"
+    groupadd ${SYSTEM_GROUP}
+  fi
+
+  if ! grep -q "${SYSTEM_USER}" /etc/passwd; then
+    echo "Creating system user ${SYSTEM_USER}"
+    useradd --home-dir ${SYSTEM_HOMEDIR} --gid ${SYSTEM_GROUP} --no-create-home --shell /bin/bash ${SYSTEM_USER}
+  fi
+
+  if [ ! -d "${SYSTEM_HOMEDIR}" ]; then
+    echo "Creating homedir ${SYSTEM_HOMEDIR}"
+    mkdir -p ${SYSTEM_HOMEDIR}
+    chown ${SYSTEM_USER}:${SYSTEM_GROUP} ${SYSTEM_HOMEDIR}
+    chmod 0755 ${SYSTEM_HOMEDIR}
+  fi
+
+  if [ ! -d "${SYSTEM_CONFDIR}" ]; then
+    echo "Creating config dir ${SYSTEM_CONFDIR}"
+    mkdir -p ${SYSTEM_CONFDIR}
+    chown ${SYSTEM_USER}:${SYSTEM_GROUP} ${SYSTEM_CONFDIR}
+    chmod 0700 ${SYSTEM_CONFDIR}
+  fi
+
+  if [ ! -d "${SYSTEM_PIDDIR}" ]; then
+    echo "Creating PID dir ${SYSTEM_CONFDIR}"
+    mkdir -p ${SYSTEM_PIDDIR}
+    chown ${SYSTEM_USER}:${SYSTEM_GROUP} ${SYSTEM_PIDDIR}
+    chmod 0700 ${SYSTEM_PIDDIR}
+  fi
+
+  if [ ! -d "${SYSTEM_LOGDIR}" ]; then
+    echo "Creating log dir ${SYSTEM_CONFDIR}"
+    mkdir -p ${SYSTEM_LOGDIR}
+    chown ${SYSTEM_USER}:${SYSTEM_GROUP} ${SYSTEM_LOGDIR}
+    chmod 0755 ${SYSTEM_LOGDIR}
+  fi
+fi
+
+unset MODE
+
+unset SYSTEM_USER
+unset SYSTEM_GROUP
+unset SYSTEM_HOMEDIR
+unset SYSTEM_CONFDIR
+unset SYSTEM_PIDDIR
+
+exit 0

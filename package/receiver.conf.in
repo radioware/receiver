@@ -1,0 +1,110 @@
+#############################################
+### RadioWare Receiver configuration file ###
+#############################################
+#
+# This file is used for configuring RadioWare Receiver daemon
+# Every line must contains a single parameter, followed by its value.
+# The first whitespace is used as separator between parameter and its value,
+# so every content after the first whitespace is considered as value.
+#
+# E.g. :
+#
+#   Row: one two three
+#
+#   Param: "one"
+#   Value: "two three"
+#
+# Every line is stripped in both starting and ending side in order to remove unuseful
+# additional whitespace characters.
+# Every empty line or line starting with a # are considered as comments and are
+# ignored during the parsing of the configuration file.
+
+### Logging
+#
+# Levels:
+#   0 - OFF
+#   1 - ERROR
+#   2 - WARNING
+#   3 - INFO
+#   4 - DEBUG
+#   5 - TRACE
+#
+# ui_log_level
+# Log level used for terminal messages
+ui_log_level 2
+
+# Log level used for log file
+file_log_level 2
+
+# Complete filename of log file
+file_log_name @RADIOWARE_RECEIVER_SYSTEM_LOGDIR@/receiver.log
+
+### Various
+#
+# Complete filename of log file
+ui_print_stats no
+
+### Various
+#
+# Select IQ data source to use
+# Possible values:
+#  - rtlsdr: Use a RTL-SDR device (default)
+#  - file:   Read IQ data directly from a file
+source rtlsdr
+
+# Used to determine if the program as to act as receiver or just have to print some information
+#
+# Possible values:
+# - rx:   Works as a complete receiver
+# - info: Works only to retrieve and print some informations, than exit
+mode rx
+
+rtlsdr_device_id
+
+rtlsdr_device_sample_rate
+
+rtlsdr_device_center_freq
+
+rtlsdr_device_freq_correction
+
+rtlsdr_device_tuner_gain_mode
+
+rtlsdr_device_tuner_gain
+
+rtlsdr_device_agc_mode
+
+rtlsdr_samples
+
+rtlsdr_scan_enable
+
+rtlsdr_scan_start_freq
+
+rtlsdr_scan_end_freq
+
+rtlsdr_scan_step_freq
+
+modulation
+
+filter
+
+filter_fir
+
+audio_frames_per_period
+
+audio_sample_rate
+
+audio_file_enabled
+
+audio_file_path
+
+audio_monitor_enabled
+
+audio_monitor_device
+
+audio_monitor_enabled
+
+codec2_mode
+
+network_server
+
+network_port

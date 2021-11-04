@@ -1,0 +1,15 @@
+[Unit]
+Description=@APPLICATION_NAME@
+After=network.target
+
+[Service]
+Type=simple
+User=@RADIOWARE_RECEIVER_SYSTEM_USER@
+Group=@RADIOWARE_RECEIVER_SYSTEM_GROUP@
+WorkingDirectory=@RADIOWARE_RECEIVER_SYSTEM_HOMEDIR@
+ExecStart=@RADIOWARE_RECEIVER_SYSTEM_BINDIR@/radioware_receiver --pidfile=@RADIOWARE_RECEIVER_SYSTEM_PIDDIR@/receiver.pid --config=@RADIOWARE_RECEIVER_SYSTEM_CONFDIR@/receiver.conf
+PIDFile=@RADIOWARE_RECEIVER_SYSTEM_PIDDIR@/receiver.pid
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

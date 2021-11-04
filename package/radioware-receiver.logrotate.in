@@ -1,0 +1,8 @@
+@RADIOWARE_RECEIVER_SYSTEM_LOGDIR@/receiver.log {
+    daily
+    rotate 365
+    dateext
+    compress
+    delaycompress
+    missingok
+}

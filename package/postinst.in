@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -e
+
+SYSTEM_USER="@RADIOWARE_RECEIVER_SYSTEM_USER@"
+SYSTEM_GROUP="@RADIOWARE_RECEIVER_SYSTEM_GROUP@"
+SYSTEM_CONFDIR="@RADIOWARE_RECEIVER_SYSTEM_CONFDIR@"
+
+if [ ! -e ${SYSTEM_CONFDIR}/receiver.conf ]; then
+  echo "Creating config file from vanilla"
+  cp -a ${SYSTEM_CONFDIR}/receiver.conf-vanilla ${SYSTEM_CONFDIR}/receiver.conf
+  chown -Rf ${SYSTEM_USER}:${SYSTEM_GROUP} ${SYSTEM_CONFDIR}
+fi
+
+unset SYSTEM_USER
+unset SYSTEM_GROUP
+unset SYSTEM_CONFDIR
+
+exit 0
