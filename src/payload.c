@@ -183,7 +183,7 @@ int payload_serialize(payload *p, uint8_t *buffer, size_t buffer_size, size_t *b
 
     log_debug("Adds rms");
     memcpy(buffer + ln, &p->rms, sizeof(float));
-    ln += sizeof(uint8_t);
+    ln += sizeof(float);
 
     log_debug("Adds data samples_size");
     utils_uint32_to_be(buffer + ln, p->data_size);
